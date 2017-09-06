@@ -13,38 +13,47 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from robot.conf.rename import SourceName
 from robot.errors import DataError
-from robot.model import SuiteVisitor
 from robot.result import ExecutionResult
 from robot.utils import get_error_message
 
 
-class GatherFailedTests(SuiteVisitor):
+class GatherFailed(SourceName):
+    def __init__(self, use_raw_name=False):
+        self.use_raw_name = use_raw_name
+        
+    def start_suite(self, suite):
+        if not self.use_raw_name:
+            super(GatherFailed, self).start_suite(suite)
 
-    def __init__(self):
+    def visit_keyword(self, kw):
+        pass
+
+
+class GatherFailedTests(GatherFailed):
+
+    def __init__(self, use_raw_name=False):
         self.tests = []
-
+        super(GatherFailedTests, self).__init__(use_raw_name)
+        
     def visit_test(self, test):
         if not test.passed:
             self.tests.append(test.longname)
 
-    def visit_keyword(self, kw):
-        pass
 
+class GatherFailedSuites(GatherFailed):
 
-class GatherFailedSuites(SuiteVisitor):
-
-    def __init__(self):
+    def __init__(self, use_raw_name=False):
         self.suites = []
+        super(GatherFailedSuites, self).__init__(use_raw_name)
 
     def start_suite(self, suite):
+        super(GatherFailedSuites, self).start_suite(suite)
         if any(not test.passed for test in suite.tests):
             self.suites.append(suite.longname)
 
     def visit_test(self, test):
-        pass
-
-    def visit_keyword(self, kw):
         pass
 
 
