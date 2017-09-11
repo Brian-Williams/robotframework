@@ -1,3 +1,4 @@
+from __future__ import print_function
 __version__ = 'N/A'  # This should be ignored when version is parsed
 
 

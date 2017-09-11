@@ -1,3 +1,4 @@
+from __future__ import print_function
 from os.path import join, abspath
 
 __all__ = ['join_with_execdir', 'abspath', 'attr_is_not_kw',

@@ -1,3 +1,4 @@
+from __future__ import print_function
 from robot.libraries.BuiltIn import BuiltIn, register_run_keyword
 
 

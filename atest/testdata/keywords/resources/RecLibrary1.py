@@ -1,3 +1,4 @@
+from __future__ import print_function
 class RecLibrary1(object):
 
     def keyword_only_in_library_1(self):

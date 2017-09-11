@@ -1,3 +1,4 @@
+from __future__ import print_function
 import sys
 # based on a recipe from http://stackoverflow.com/questions/1854/python-what-os-am-i-running-on
 def get_os_platform():

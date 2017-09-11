@@ -1,3 +1,4 @@
+from __future__ import print_function
 def in_exception():
     raise Exception(b'hyv\xe4')
 

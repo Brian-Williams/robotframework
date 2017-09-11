@@ -1,3 +1,4 @@
+from __future__ import print_function
 import subprocess
 import os
 import signal
@@ -39,10 +40,10 @@ class ProcessManager(object):
 
     def log_stdout_and_stderr(self):
         self.wait_until_finished()
-        print 'STDOUT:'
-        print self._stdout
-        print 'STDERR:'
-        print self._stderr
+        print('STDOUT:')
+        print(self._stdout)
+        print('STDERR:')
+        print(self._stderr)
 
     def wait_until_finished(self):
         if self._stdout is None:

@@ -1,3 +1,4 @@
+from __future__ import print_function
 ROBOT_LIBRARY_SCOPE = 'Test Suite'  # this should be ignored
 __version__ = 'test'  # this should be used as version of this library
 

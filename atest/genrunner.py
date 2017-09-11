@@ -4,13 +4,14 @@
 
 Usage:  %s testdata/path/data.robot [robot/path/runner.robot]
 """
+from __future__ import print_function
 
 from os.path import abspath, basename, dirname, exists, join, splitext
 import os
 import sys
 
 if len(sys.argv) not in [2, 3] or not all(a.endswith('.robot') for a in sys.argv[1:]):
-    print __doc__ % basename(sys.argv[0])
+    print(__doc__ % basename(sys.argv[0]))
     sys.exit(1)
 
 INPATH = abspath(sys.argv[1])
@@ -49,4 +50,4 @@ Resource         atest_resource.robot
         if test is not TESTS[-1]:
             output.write('\n')
 
-print OUTPATH
+print(OUTPATH)

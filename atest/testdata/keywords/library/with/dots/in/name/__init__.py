@@ -1,3 +1,4 @@
+from __future__ import print_function
 class name(object):
 
     def get_keyword_names(self):
