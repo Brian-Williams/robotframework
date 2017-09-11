@@ -19,6 +19,6 @@ install:
   - pip install invoke -r atest/requirements.txt
 script:
   - $PYTHON_EXE utest/run.py
-  - if [ "$TRAVIS_PYTHON_VERSION" == "2.7" ] && [ "$PYTHON_EXE" == "python" ];
+  - if [ "$TRAVIS_PYTHON_VERSION" == "2.7" ] || [ "$TRAVIS_PYTHON_VERSION" == "3.6" ] && [ "$PYTHON_EXE" == "python" ];
     then atest/run.py "$PYTHON_EXE" --exclude no-ciORrequire-screenshot atest/robot;
     else echo "We only run atest from the py2.7 part of the build matrix."; fi
