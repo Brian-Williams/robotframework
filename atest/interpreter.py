@@ -38,8 +38,8 @@ class Interpreter(object):
         except (subprocess.CalledProcessError, OSError):
             raise ValueError('Invalid interpreter: %s' % self.path)
         name, version = output.split()[:2]
-        name = name if 'PyPy' not in output else 'PyPy'
-        version = '.'.join(version.split('.')[:2])
+        name = str(name) if b'PyPy' not in output else 'PyPy'
+        version = '.'.join(str(version).split('.')[:2])
         return name, version
 
     @property
