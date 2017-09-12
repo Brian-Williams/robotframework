@@ -13,12 +13,12 @@ matrix:
   - python: "2.7"
     env: PYTHON_EXE=jython
 before_install:
-  - if [ "$PYTHON_EXE" == "jython" ] ; then sudo apt-get install jython; fi
+  - if [ "$PYTHON_EXE" == "jython" ]; then sudo apt-get install jython; fi
 install:
   - pip install .
   - pip install invoke -r atest/requirements.txt
 script:
   - $PYTHON_EXE utest/run.py
-  - if [ "$TRAVIS_PYTHON_VERSION" == "2.7" ] || [ "$TRAVIS_PYTHON_VERSION" == "3.6" ] && [ "$PYTHON_EXE" == "python" ];
+  - if [ "$TRAVIS_PYTHON_VERSION" == "2.7" ];
     then atest/run.py "$PYTHON_EXE" --exclude no-ciORrequire-screenshot atest/robot;
     else echo "We only run atest from the py2.7 part of the build matrix."; fi
