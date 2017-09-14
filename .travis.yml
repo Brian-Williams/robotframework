@@ -6,6 +6,9 @@ python:
   - "3.6"
   - "pypy"
   - "pypy3"
+os:
+  - linux
+  - osx
 env:
   - PYTHON_EXE=python
 matrix:
