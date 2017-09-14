@@ -1,5 +1,4 @@
 language: python
-sudo: required
 python:
   - "2.7"
   - "3.5"
@@ -14,9 +13,12 @@ env:
 matrix:
   include:
   - python: "2.7"
+    sudo: required
     env: PYTHON_EXE=jython
-before_install:
-  - if [ "$PYTHON_EXE" == "jython" ]; then sudo apt-get install jython; fi
+    addons:
+      apt:
+        packages:
+          - jython
 install:
   - pip install .
   - pip install invoke -r atest/requirements.txt
