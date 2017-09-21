@@ -68,6 +68,7 @@ class _BaseSettings(object):
                  'StdErr'           : ('stderr', None),
                  'XUnitSkipNonCritical' : ('xunitskipnoncritical', False)}
     _output_opts = ['Output', 'Log', 'Report', 'XUnit', 'DebugFile']
+    _traveling_opts = {'ReRunFailed', 'ReRunFailedSuites'}
 
     def __init__(self, options=None, **extra_options):
         self.start_timestamp = format_time(time.time(), '', '-', '')
@@ -76,13 +77,23 @@ class _BaseSettings(object):
         self._cli_opts.update(self._extra_cli_opts)
         self._process_cli_opts(dict(options or {}, **extra_options))
 
+    def _process_cli_opt(self, opt, opts):
+        """Internal method for _process_cli_opts."""
+        name, (cli_name, default) = opt
+        value = opts[cli_name] if cli_name in opts else default
+        if isinstance(default, list):
+            # Copy mutable values and support list values as scalars.
+            value = list(value) if is_list_like(value) else [value]
+        self[name] = self._process_value(name, value)
+
     def _process_cli_opts(self, opts):
-        for name, (cli_name, default) in self._cli_opts.items():
-            value = opts[cli_name] if cli_name in opts else default
-            if isinstance(default, list):
-                # Copy mutable values and support list values as scalars.
-                value = list(value) if is_list_like(value) else [value]
-            self[name] = self._process_value(name, value)
+        non_visiting_gen = (opt for opt in self._cli_opts.items() if opt[0] not in self._traveling_opts)
+        visiting_gen = (opt for opt in self._cli_opts.items() if opt[0] in self._traveling_opts)
+        # Settings which use a SuiteVisitor should have the
+        for opt in non_visiting_gen:
+            self._process_cli_opt(opt, opts)
+        for opt in visiting_gen:
+            self._process_cli_opt(opt, opts)
         self['TestNames'] += self['ReRunFailed']
         self['SuiteNames'] += self['ReRunFailedSuites']
 
