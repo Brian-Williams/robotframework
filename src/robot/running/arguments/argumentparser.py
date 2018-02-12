@@ -35,7 +35,7 @@ class _ArgumentParser(object):
         try:
             return ArgumentSpec(name, self._type, **self._get_arg_spec(source))
         except TypeError:
-            # Support old style *args return from _get_arg_spec
+            # Support original style *args return from _get_arg_spec
             return ArgumentSpec(name, self._type, *self._get_arg_spec(source))
 
     def _get_arg_spec(self, source):
@@ -48,7 +48,7 @@ class PythonArgumentParser(_ArgumentParser):
     def _get_arg_spec(self, handler):
         if PY2:
             args, varargs, kwargs, defaults = inspect.getargspec(handler)
-            kwonlyargs = kwonlydefaults =  None
+            kwonlyargs = kwonlydefaults = None
         else:
             args, varargs, defaults, kwonlyargs, kwonlydefaults, annotations = inspect.getfullargspec(handler)
         if inspect.ismethod(handler) or handler.__name__ == '__init__':
