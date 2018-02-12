@@ -57,6 +57,10 @@ class NamedArgumentResolver(object):
                 self._raise_positional_after_named()
             else:
                 positional.append(arg)
+        if self._argspec.reqkwargs:
+            missing_kwonly = self._argspec.reqkwargs - set(named)
+            if missing_kwonly:
+                raise DataError("Missing keyword-only argument(s) '%s'" % missing_kwonly)
         return positional, named
 
     def _is_dict_var(self, arg):
