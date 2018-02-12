@@ -41,6 +41,10 @@ class ArgumentSpec(object):
     def maxargs(self):
         return len(self.positional) if not self.varargs else sys.maxsize
 
+    @property
+    def reqkwargs(self):
+        return self.kwonlyargs - self.kwonlydefaults.keys()
+
     def resolve(self, arguments, variables=None, resolve_named=True,
                 resolve_variables_until=None, dict_to_kwargs=False):
         resolver = ArgumentResolver(self, resolve_named,
