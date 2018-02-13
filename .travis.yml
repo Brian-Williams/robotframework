@@ -4,7 +4,7 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
-  - "pypy"
+#  - "pypy"  # Has a bug: AttributeError: 'dict' object has no attribute 'key'
   - "pypy3"
 env:
   - PYTHON_EXE=python
