@@ -60,7 +60,7 @@ class KeywordCallTemplate(object):
         self.args = [arg if not isinstance(arg, DefaultValue) else arg.value
                      for arg in self.args]
         self.kwargs = [(key, kwoarg) if not isinstance(kwoarg, DefaultValue) else (key, kwoarg.value)
-                       for key, kwoarg in self.kwargs.items()]
+                       for key, kwoarg in self.kwargs]
 
 
 class DefaultValue(object):
