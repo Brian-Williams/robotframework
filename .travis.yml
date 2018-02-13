@@ -8,15 +8,15 @@ python:
   - "pypy3"
 env:
   - PYTHON_EXE=python
-matrix:
-  include:
-  - python: "2.7"
-    sudo: required
-    env: PYTHON_EXE=jython
-    addons:
-      apt:
-        packages:
-          - jython
+#matrix:
+#  include:
+#  - python: "2.7"
+#    sudo: required
+#    env: PYTHON_EXE=jython
+#    addons:
+#      apt:
+#        packages:
+#          - jython
 install:
   - pip install .
   - pip install invoke -r atest/requirements.txt
