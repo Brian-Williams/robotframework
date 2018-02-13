@@ -47,15 +47,15 @@ class PythonArgumentParser(_ArgumentParser):
 
     def _get_arg_spec(self, handler):
         if PY2:
-            args, varargs, kwargs, defaults = inspect.getargspec(handler)
+            args, varargs, varkw, defaults = inspect.getargspec(handler)
             kwonlyargs = kwonlydefaults = None
         else:
-            args, varargs, defaults, kwonlyargs, kwonly, defaults, annotations = inspect.getfullargspec(handler)
+            args, varargs, varkw, defaults, kwonlyargs, kwonlydefaults, _ = inspect.getfullargspec(handler)
         if inspect.ismethod(handler) or handler.__name__ == '__init__':
             args = args[1:]  # drop 'self'
         defaults = list(defaults) if defaults else []
         return {
-            'positional': args, 'defaults': defaults, 'varargs': varargs, 'kwargs': kwargs, 'kwonlyargs': kwonlyargs,
+            'positional': args, 'defaults': defaults, 'varargs': varargs, 'kwargs': varkw, 'kwonlyargs': kwonlyargs,
             'kwonlydefaults': kwonlydefaults
         }
 
