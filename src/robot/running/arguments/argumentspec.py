@@ -43,7 +43,7 @@ class ArgumentSpec(object):
 
     @property
     def reqkwargs(self):
-        return self.kwonlyargs - self.kwonlydefaults.keys()
+        return set(self.kwonlyargs) - set(self.kwonlydefaults.keys())
 
     def resolve(self, arguments, variables=None, resolve_named=True,
                 resolve_variables_until=None, dict_to_kwargs=False):
