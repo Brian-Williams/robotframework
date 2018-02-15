@@ -1,6 +1,7 @@
 *** Settings ***
 Library           ArgumentsPython
 Library           Annotations.py
+Library           KWOArgs.py
 
 *** Variables ***
 @{LIST}           With    three    values
@@ -102,3 +103,22 @@ Calling Using Annotations
 Calling Using Annotations With Defaults
     ${ret}=    Annotations With Defaults    one
     Should Be Equal    ${ret}    annotations: one default
+
+Keyword Only Argument
+    Keyword Only Test  kwoarg
+
+Keyword Only Argument With Default
+    Keyword Only Test  kwoarg_with_default
+
+Keyword Only Argument With Annotation
+    Keyword Only Test  kwoarg_with_annotation
+
+Keyword Only Argument With Annotation And Default
+    Keyword Only Test  kwoarg_with_annotation_and_default
+
+
+*** Keywords ***
+Keyword Only Test
+    [Arguments]  ${kwo keyword}  ${kwo input}=input
+    ${kwo value}=  Run Keyword  ${kwo keyword}  ${}kwo input
+    Should Be Equal  ${kwo value}  ${kwo input}
