@@ -63,7 +63,7 @@ class NamedArgumentResolver(object):
         return (is_string(arg) and arg[:2] == '&{' and arg[-1] == '}' and
                 VariableSplitter(arg).is_dict_variable())
 
-    def _is_named_parser(self, arg, variables=None):
+    def _is_named(self, arg, variables=None):
         if not (is_string(arg) and '=' in arg):
             return False
         name, value = split_from_equals(arg)
@@ -75,19 +75,7 @@ class NamedArgumentResolver(object):
             return False
         if variables:
             name = variables.replace_scalar(name)
-        return name
-
-    def _is_named(self, arg, variables=None):
-        name = self._is_named_parser(arg, variables)
-        return name in self._argspec.positional or name in self._argspec.reqkwargs
-
-    def _is_named_positional(self, arg, variables=None):
-        name = self._is_named_parser(arg, variables)
         return name in self._argspec.positional
-
-    def _is_named_kwo_arg(self, arg, variables=None):
-        name = self._is_named_parser(arg, variables)
-        return name in self._argspec.reqkwargs
 
     def _raise_positional_after_named(self):
         raise DataError("%s '%s' got positional argument after named arguments."
