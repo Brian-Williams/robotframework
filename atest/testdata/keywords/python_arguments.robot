@@ -120,5 +120,5 @@ Keyword Only Argument With Annotation And Default
 *** Keywords ***
 Keyword Only Test
     [Arguments]  ${kwo keyword}  ${kwo input}=input
-    ${kwo value}=  Run Keyword  ${kwo keyword}  ${kwo input}
+    ${kwo value}=  Run Keyword  ${kwo keyword}  kwo=${kwo input}
     Should Be Equal  ${kwo value}  ${kwo input}
