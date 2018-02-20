@@ -69,13 +69,13 @@ class NamedArgumentResolver(object):
         name, value = split_from_equals(arg)
         if value is None:
             return False
-        if self._argspec.kwargs:
+        if self._argspec.kwargs or self._argspec.reqkwargs:
             return True
         if not self._argspec.supports_named:
             return False
         if variables:
             name = variables.replace_scalar(name)
-        return name in self._argspec.positional or name in self._argspec.reqkwargs
+        return name in self._argspec.positional
 
     def _raise_positional_after_named(self):
         raise DataError("%s '%s' got positional argument after named arguments."
