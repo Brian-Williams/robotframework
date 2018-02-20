@@ -75,7 +75,7 @@ class NamedArgumentResolver(object):
             return False
         if variables:
             name = variables.replace_scalar(name)
-        return name in self._argspec.positional or name in self._argspec.reqkwargs
+        return name in self._argspec.positional
 
     def _raise_positional_after_named(self):
         raise DataError("%s '%s' got positional argument after named arguments."
