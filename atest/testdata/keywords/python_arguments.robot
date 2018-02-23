@@ -122,7 +122,7 @@ Keyword Only Argument Use Default
 
 Keyword Only Argument Duplicate Input
     ${kwo value}=  kwoarg  kwo=ignored  kwo=ignored2  kwo=used
-    Should Be Equal  ${kwo default value}  used
+    Should Be Equal  ${kwo value}  used
 
 
 *** Keywords ***

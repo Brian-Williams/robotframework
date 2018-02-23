@@ -68,3 +68,7 @@ Keyword Only Argument With Annotation And Default
 Keyword Only Argument Use Default
     [Tags]    no-py2
     Check Test Case    ${TESTNAME}
+
+Keyword Only Argument Duplicate Input
+    [Tags]    no-py2
+    Check Test Case    ${TESTNAME}
