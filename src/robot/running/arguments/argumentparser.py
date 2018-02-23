@@ -39,7 +39,6 @@ class _ArgumentParser(object):
             return ArgumentSpec(name, self._type, *self._get_arg_spec(source))
 
     def _get_arg_spec(self, source):
-        """Return a dictionary of kwargs if possible"""
         raise NotImplementedError
 
 
