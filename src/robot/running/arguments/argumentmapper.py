@@ -39,7 +39,8 @@ class KeywordCallTemplate(object):
         self._supports_named = argspec.supports_named
         self.args = [None] * argspec.minargs \
                     + [DefaultValue(d) for d in argspec.defaults]
-        self.kwargs = [(key, DefaultValue(d)) for key, d in argspec.kwonlydefaults.items()]
+        # We don't need DefaultValues'; rf allows multiple keys for kwargs and the last takes priority
+        self.kwargs = [(key, value) for key, value in argspec.kwonlydefaults.items()]
 
     def fill_positional(self, positional):
         self.args[:len(positional)] = positional
@@ -59,8 +60,6 @@ class KeywordCallTemplate(object):
             self.args.pop()
         self.args = [arg if not isinstance(arg, DefaultValue) else arg.value
                      for arg in self.args]
-        self.kwargs = [(key, kwoarg) if not isinstance(kwoarg, DefaultValue) else (key, kwoarg.value)
-                       for key, kwoarg in self.kwargs]
 
 
 class DefaultValue(object):
