@@ -33,13 +33,23 @@ class ArgumentMapper(object):
 class KeywordCallTemplate(object):
 
     def __init__(self, argspec):
+        self._name = argspec.name
+        self._type = argspec.type
         self._positional = argspec.positional
         self._supports_kwargs = bool(argspec.kwargs)
         self._supports_kwoargs = bool(argspec.kwonlyargs)
         self._supports_named = argspec.supports_named
         self.args = [None] * argspec.minargs \
                     + [DefaultValue(d) for d in argspec.defaults]
-        self.kwargs = [(key, DefaultValue(d)) for key, d in argspec.kwonlydefaults.items()]
+        self.kwargs_di = {key: DefaultValue(value) for key, value in argspec.kwonlydefaults.items()}
+
+    @property
+    def kwargs(self):
+        return [(key, value) for key, value in self.kwargs_di.items()]
+
+    @kwargs.setter
+    def kwargs(self, kwarg_list):
+        self.kwargs_di = dict(kwarg_list)
 
     def fill_positional(self, positional):
         self.args[:len(positional)] = positional
@@ -50,7 +60,10 @@ class KeywordCallTemplate(object):
                 index = self._positional.index(name)
                 self.args[index] = value
             elif self._supports_kwargs or self._supports_kwoargs:
-                self.kwargs.append((name, value))
+                if name in self.kwargs_di and not isinstance(self.kwargs_di[name], DefaultValue):
+                    raise DataError("%s '%s' got multiple values for argument "
+                                    "'%s'" % (self._type, self._name, name))
+                self.kwargs_di[name] = value
             else:
                 raise DataError("Non-existing named argument '%s'." % name)
 
@@ -59,8 +72,9 @@ class KeywordCallTemplate(object):
             self.args.pop()
         self.args = [arg if not isinstance(arg, DefaultValue) else arg.value
                      for arg in self.args]
-        self.kwargs = [(key, kwoarg) if not isinstance(kwoarg, DefaultValue) else (key, kwoarg.value)
-                       for key, kwoarg in self.kwargs]
+        for key, value in self.kwargs_di.items():
+            if isinstance(value, DefaultValue):
+                self.kwargs_di[key] = value.value
 
 
 class DefaultValue(object):
