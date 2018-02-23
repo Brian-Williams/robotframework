@@ -116,6 +116,14 @@ Keyword Only Argument With Annotation
 Keyword Only Argument With Annotation And Default
     Keyword Only Test  kwoarg_with_annotation_and_default
 
+Keyword Only Argument Use Default
+    ${kwo default value}=  kwoarg_with_default
+    Should Be Equal  ${kwo default value}  default
+
+Keyword Only Argument Duplicate Input
+    ${kwo value}=  kwoarg  kwo=ignored  kwo=ignored2  kwo=used
+    Should Be Equal  ${kwo default value}  used
+
 
 *** Keywords ***
 Keyword Only Test
